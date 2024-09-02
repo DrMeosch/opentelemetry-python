@@ -13,6 +13,7 @@
 # limitations under the License.
 # type: ignore
 
+import json
 import logging
 import threading
 from collections import OrderedDict
@@ -50,6 +51,9 @@ def _clean_attribute(
     if not (key and isinstance(key, str)):
         _logger.warning("invalid key `%s`. must be non-empty string.", key)
         return None
+
+    if isinstance(value, dict):
+        return json.dumps(value)
 
     if isinstance(value, _VALID_ATTR_VALUE_TYPES):
         return _clean_attribute_value(value, max_len)
